@@ -1,0 +1,54 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Pessoa {
+  id          Int      @id @default(autoincrement()) // Chave primária
+  nome        String   @db.VarChar(100)             // Campo nome com limite de 100 caracteres
+  CPF         String   @unique @db.VarChar(14)      // Campo único
+  dataNasc    DateTime                             // Tipo de data e hora
+  mae         String    @db.VarChar(100)
+
+  cliente     Cliente?            // Relacionamento opcional com Cliente
+  aluno       Aluno?            // Relacionamento opcional com Aluno
+  professor   Professor?        // Relacionamento opcional com Professor
+
+  @@map("pessoas")              // Mapeia para a tabela "pessoas" no banco
+}
+
+model Cliente {
+  id              Int       @id @default(autoincrement())
+  dataDeCadastro  DateTime
+  status          String    @db.Char(10)
+  pessoaId       Int       @unique
+  pessoa          Pessoa   @relation(fields: [pessoaId], references: [id], onDelete: Cascade)
+
+  @@map("clientes")
+}
+
+model Aluno {
+  id          Int       @id @default(autoincrement())
+  matricula   Int       @unique
+  anoIngresso Int
+  pessoaId   Int       @unique
+  pessoa      Pessoa   @relation(fields: [pessoaId], references: [id], onDelete: Cascade)
+
+  @@map("alunos")
+}
+
+model Professor {
+  id            Int       @id @default(autoincrement())
+  areaDeAtuacao String    @db.VarChar(45)
+  numeroRegistro Int
+  pessoaId     Int       @unique
+  pessoa        Pessoa   @relation(fields: [pessoaId], references: [id], onDelete: Cascade)
+  
+  @@map("professores")
+}
