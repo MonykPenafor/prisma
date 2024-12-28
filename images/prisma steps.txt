@@ -1,0 +1,14 @@
+- https://www.prisma.io/docs/getting-started/quickstart-sqlite
+
+- schema.prisma: set client que vamos utilizar, set database
+- .env: contem a database URL, configurar o nome, login e senha
+- schema.prisma: criar models
+- exec "yarn prisma migrate dev" para 'comitar' mudanças no banco
+- aparece uma pasta de migrations onde pode ver a estrutura do banco em sql
+- add pasta src, e files routes e server.ts
+- criar pasta controllers e database e suas respctvs files ...Controller e prismaClient.ts
+- confg prismaClient
+- escrevendo o controller
+- quando fez um migration foi criado o arquivo index.js dentro da pasta de nodemodules/prisma/client, que exporta todos os modelos criados anteriormente, 
+assim, eu vou poder referenciar esse modelo nos controllers, que farão os métodos crud, isso permite o uso dos métodos criados pelo próprio prisma, como criar, deletar, atualizar... 
+- prisma generate executa os migrations que não foram executados e executa em prod 
